@@ -1,0 +1,31 @@
+{
+  "name": "ssr-study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm-run-all --parallel dev:**",
+    "dev:start": "nodemon --watch build --exec node \"./build/bundle.js\"",
+    "dev:build:server": "webpack --config webpack.server.js --watch",
+    "dev:build:client": "webpack --config webpack.client.js --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-react": "^7.14.5",
+    "babel-loader": "^8.2.2",
+    "core-js": "^3.18.3",
+    "webpack": "^5.59.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-merge": "^5.8.0",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
