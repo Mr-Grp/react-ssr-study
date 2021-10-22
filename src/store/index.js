@@ -5,6 +5,8 @@ const reducer = (state = { name: 'Guo' }, actions) => {
   return state
 }
 
-const store = createStore(reducer, applyMiddleware(thunk))
+const getStore = () => {
+  return createStore(reducer, applyMiddleware(thunk))
+}
 
-export default store
+export default getStore
