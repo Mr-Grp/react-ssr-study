@@ -1,12 +1,58 @@
 import express from 'express';
 import { render } from './utils'
+import { matchRoutes } from 'react-router-config'
+import { getStore } from '../store'
+import routes from '../Routes';
 const app = express()
 
 // 访问静态文件的时候，会去 public 目录里查找
 app.use(express.static('public'))
 
 app.get('*', function (req, res) {
-  res.send(render(req))
+
+  const store = getStore()
+  // 如果在请求时，先初始化当前路由下 store 的内容，就可以正常展示了
+  // 1. 将需求请求的数据，配置到静态方法中
+  // 2. 在路由设置中，配置需要请求的静态方法
+  // 3. 在请求时，找到匹配到的路由配置项 matchPath 和 matchRoutes 都可以
+  // 4. 根据配置项，让 matchRoutes 的 loadData 方法执行，注入 store
+
+  // 问题 1. favicon.ico 问题
+  // 如果请求会额外打印一次空数组，因为请求了 favicon.icon 但没找到静态文件，进入了路由拦截器
+
+  // 问题 2. 多级路由问题
+  // 二级路由匹配不到，匹配到的是一级路由
+  // 可以使用 matchRoutes
+  // npm i -S react-router-config
+
+  // Did not expect server HTML to contain a <li> in <ul>
+
+  // 匹配路由方法2
+  const matchedRoutes = matchRoutes(routes, req.path)
+  // console.log(matchedRoutes)
+
+  const promises = []
+
+  // 获取数据
+  matchedRoutes.forEach((item) => {
+    // 问题 1 这样还是不会有数据，因为是异步的
+    // item.route.loadData(store)
+
+    if (item.route.loadData) {
+      promises.push(item.route.loadData(store))
+    }
+  })
+
+
+  // corejs@3 promise 用不了
+
+  // 注水和脱水
+  // 
+
+  Promise.all(promises).then(() => {
+    res.send(render(store, routes, req))
+  })
+
 })
 
 const server = app.listen(3000)
