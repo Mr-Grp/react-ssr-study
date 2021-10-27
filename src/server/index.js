@@ -3,13 +3,19 @@ import { render } from './utils'
 import { matchRoutes } from 'react-router-config'
 import { getStore } from '../store'
 import routes from '../Routes';
+import proxy from 'express-http-proxy'
 const app = express()
 
 // 访问静态文件的时候，会去 public 目录里查找
 app.use(express.static('public'))
 
-app.get('*', function (req, res) {
+app.use('/api', proxy('http://47.95.113.63', {
+  proxyReqPathResolver: function (req) {
+    return '/ssr/api' + req.url
+  }
+}))
 
+app.get('*', function (req, res) {
   const store = getStore()
   // 如果在请求时，先初始化当前路由下 store 的内容，就可以正常展示了
   // 1. 将需求请求的数据，配置到静态方法中
