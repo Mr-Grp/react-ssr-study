@@ -18,7 +18,6 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <Header></Header>
         <button onClick={() => console.log('HOME')}>打印</button>
         {this.getList()}
       </div>
