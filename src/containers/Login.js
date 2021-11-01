@@ -1,10 +1,7 @@
 import React from 'react';
-
+import { Redirect } from 'react-router-dom'
 const Login = () => {
-  return <div>
-    <div>Login</div>
-    <button onClick={() => console.log('Login')}>打印</button>
-  </div>
+  return <Redirect to='/'></Redirect>
 }
 
 export default Login

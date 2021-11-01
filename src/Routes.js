@@ -1,5 +1,6 @@
 import Home from './containers/Home'
 import Login from './containers/Login'
+import Error from './containers/Error'
 import App from './App'
 
 
@@ -18,5 +19,8 @@ export default [{
     component: Login,
     exact: true,
     key: 'login'
+  }, {
+    component: Error,
+    key: 'error'
   }]
 }]

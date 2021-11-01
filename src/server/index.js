@@ -53,10 +53,22 @@ app.get('*', function (req, res) {
   // corejs@3 promise 用不了
 
   // 注水和脱水
-  // 
 
   Promise.all(promises).then(() => {
-    res.send(render(store, routes, req))
+    const context = {}
+    const html = render(store, routes, req, context)
+    // 页面渲染后，context 会被赋值
+    console.log(context)
+    if (context.NOT_FOUND) {
+      // 进入 404 页面后，在页面里对 context 进行赋值
+      res.status(404)
+      res.send(html)
+    } else if (context.action === 'REPLACE') {
+      // 页面中如果使用了 Redirect，会往 context 中加入一条数据
+      res.redirect(301, context.url)
+    } else {
+      res.send(html)
+    }
   })
 
 })
