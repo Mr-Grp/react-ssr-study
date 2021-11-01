@@ -16,7 +16,7 @@ app.use('/api', proxy('http://47.95.113.63', {
 }))
 
 app.get('*', function (req, res) {
-  const store = getStore()
+  const store = getStore(req)
   // 如果在请求时，先初始化当前路由下 store 的内容，就可以正常展示了
   // 1. 将需求请求的数据，配置到静态方法中
   // 2. 在路由设置中，配置需要请求的静态方法
