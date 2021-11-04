@@ -12,7 +12,7 @@ class Error extends Component {
   render() {
     return (
       <div>
-        111
+        404
       </div>
     );
   }

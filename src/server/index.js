@@ -45,7 +45,12 @@ app.get('*', function (req, res) {
     // item.route.loadData(store)
 
     if (item.route.loadData) {
-      promises.push(item.route.loadData(store))
+      // 防止失败，不能走到 Promise.all
+      const promise = new Promise((resolve, reject) => {
+        item.route.loadData(store).then(resolve).catch(resolve)
+      })
+      promises.push(promise)
+
     }
   })
 
@@ -69,6 +74,10 @@ app.get('*', function (req, res) {
     } else {
       res.send(html)
     }
+  }).catch(() => {
+    // 如果 promises 存在错误，会走到这里
+    // 希望把 所有 加载正确 的接口返回，但是catch 不会等所有结果请求完，请求到错误就返回，不符合预期
+    // 通过 promise 处理
   })
 
 })
