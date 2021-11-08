@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Header from '../../components/Header';
+import Helmet from "react-helmet";
 import { connect } from 'react-redux';
 import { actions } from './store'
 
@@ -18,6 +18,20 @@ class Home extends Component {
   render() {
     return (
       <div>
+        <>
+          <Helmet
+            title="My Title"
+            meta={[
+              { "name": "description", "content": "Helmet application" },
+              { "property": "og:type", "content": "article" }
+            ]}
+            link={[
+              { "rel": "canonical", "href": "http://mysite.com/example" },
+              { "rel": "apple-touch-icon", "href": "http://mysite.com/img/apple-touch-icon-57x57.png" },
+              { "rel": "apple-touch-icon", "sizes": "72x72", "href": "http://mysite.com/img/apple-touch-icon-72x72.png" }
+            ]}
+          />
+        </>
         <button onClick={() => console.log('HOME')}>打印</button>
         {this.getList()}
       </div>
