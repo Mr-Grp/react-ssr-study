@@ -60,10 +60,11 @@ app.get('*', function (req, res) {
   // 注水和脱水
 
   Promise.all(promises).then(() => {
-    const context = {}
+    const context = {
+      css: []
+    }
     const html = render(store, routes, req, context)
     // 页面渲染后，context 会被赋值
-    console.log(context)
     if (context.NOT_FOUND) {
       // 进入 404 页面后，在页面里对 context 进行赋值
       res.status(404)

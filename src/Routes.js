@@ -19,8 +19,8 @@ export default [{
     component: Login,
     exact: true,
     key: 'login'
-  }, {
-    component: Error,
-    key: 'error'
   }]
+}, {
+  component: Error,
+  key: 'error'
 }]

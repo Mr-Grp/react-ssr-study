@@ -18,9 +18,11 @@ export const render = (store, routes, req, context) => {
   )
 
   let head = Helmet.renderStatic();
+
   return (`
     <html>
       <header>
+        <style>${context.css.join('\n')}</style>
         ${head.title.toString()}
         ${head.link.toString()}
         ${head.meta.toString()}

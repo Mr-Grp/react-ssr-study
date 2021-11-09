@@ -13,6 +13,23 @@ const serverConfig = {
     path: path.resolve(__dirname, 'build')
   },
   externals: [nodeExternals()], // 不会将模块打包到引入的包里
+  module: {
+    rules: [{
+      test: /\.css?$/,
+      use: [
+        'isomorphic-style-loader', {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+            esModule: false,
+            modules: {
+              localIdentName: '[name]_[local]_[hash:base64:5]',
+            },
+          }
+        }
+      ]
+    }]
+  }
 }
 
 module.exports = merge(config, serverConfig)

@@ -2,9 +2,18 @@ import React, { Component } from 'react';
 import Helmet from "react-helmet";
 import { connect } from 'react-redux';
 import { actions } from './store'
+import CssHoc from '../../components/CssHoc'
+import styles from './index.css';
 
 class Home extends Component {
   state = {}
+
+  // 可以使用 hoc ，传入 styles
+  // componentWillMount() {
+  //   if (this.props.staticContext) {
+  //     this.props.staticContext.css.push(styles._getCss())
+  //   }
+  // }
 
   // 只会在客户端渲染的时候被执行
   componentDidMount() {
@@ -33,16 +42,13 @@ class Home extends Component {
           />
         </>
         <button onClick={() => console.log('HOME')}>打印</button>
-        {this.getList()}
+        <div className={styles.test}>
+          {this.getList()}
+        </div>
       </div>
     );
   }
 }
-
-Home.loadData = (store) => {
-  return store.dispatch(actions.getHomeList())
-}
-
 
 const mapStateToProps = (state) => ({
   newsList: state.home.newsList,
@@ -55,5 +61,12 @@ const mapDispatchProps = dispatch => ({
   }
 })
 
+const HomeApp = connect(mapStateToProps, mapDispatchProps)(CssHoc(Home, styles))
 
-export default connect(mapStateToProps, mapDispatchProps)(Home)
+HomeApp.loadData = (store) => {
+  return store.dispatch(actions.getHomeList())
+}
+
+// connect 会将 loadData 挂载
+// 其他 hoc 注意处理
+export default HomeApp
